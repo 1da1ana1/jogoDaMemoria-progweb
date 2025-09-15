@@ -1,0 +1,43 @@
+.ranking-container {
+    width: 80%;
+    max-width: 700px;
+    min-height: 400px;
+    background-color: #FF8818;
+    border-radius: 24px;
+    padding: 20px;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    border: 50px solid #17B498;
+    font-size: 15px;
+
+}
+
+
+.ranking-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+
+.ranking-list .match-info {
+    display: grid;
+    text-align: center;
+    align-items: center;
+
+}
+
+/*  cores títulos da tabela */
+.ranking-list .list-header {
+    color: #fff
+}
+
+/* cores conteúdo da tabela */
+.ranking-list .list-item {
+    color: #000 
+}

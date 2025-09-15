@@ -1,53 +1,108 @@
-<!-- 
-  PÁGINA DE RANKING (ranking.html)
--->
-
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html> 
+<html lang="pt-br"> 
+  <head> <meta charset="UTF-8">
+     <title>Memória - rank</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+      <link rel="stylesheet" href="../css/main.css"> 
+      <link rel="stylesheet" href="../css/rank.css"> 
+      <link rel="stylesheet" href="../css/history.css"> 
 
-    <link rel="stylesheet" href="css/rank.css">
-    <link rel="stylesheet" href="css/main.css">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+      <link href="https://fonts.googleapis.com/css2?family=Geo:ital@0;1&display=swap" rel="stylesheet">
+       </head> 
+       
+       <body> 
+        
+        <header class="title"> 
+          <h1> <img src="../img/head-logo.svg" alt="head-logo" class="img01"> MEMÓRIA <img src="../img/head-logo.svg" alt="head-logo" class="img02"> 
+          </h1> <a href="index.html" class="btn-sair"> <img src="../img/logout.svg" alt="Sair"> Sair </a>
+         </header> 
+         
+         <nav class="painel"> <a href="profile.html"><img src="../img/person-circle.svg" class="painel-icon" alt="profile">Perfil</a>
+           <a href="history.html" class="active"><img src="../img/Subtract.svg" class="painel-icon" alt="history">Histórico</a> 
+           <a href="rank.html"><img src="../img/trophy-fill.svg" class="painel-icon" alt="raking">Ranking</a> </nav>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <!-- 
-      Cabeçalho com:
-      - Título da página (Ranking)
-      - Botão para voltar ao jogo
-      - Botão de logout
-    -->
-    <header>
-      <nav>
-        <ul>
-          <li><a href="jogo.html">Jogo</a></li>
-          <li><a href="rank.html">Ranking</a></li>
-          <li><a href="perfil.html">Perfil</a></li>
-          <li><a href="index.html">Sair</a></li>
-        </ul>
-      </nav>
-    </header>
+<main class="ranking-container">
+    <div class="ranking-list">
+        <div class="list-header">
+            <span>Posição</span>
+            <span>Tabuleiro</span>
+            <span>Jogadas</span>
+            <span>Tempo</span>
+        </div>
 
-    <!-- 
-      Tabela de ranking:
-      - Colunas: Posição, Nome, Tabuleiro, Jogadas, Tempo, Data
-      - Conteúdo estático para esta parcial (dados fictícios)
-    -->
+        <div class="list-item">
+            <div class="player-info">
+                <img src="../img/person-circle.svg" alt="user icon">
+                <span>username</span>
+            </div>
+            <div class="match-info">
+                <span>1</span>
+                <span>8x8</span>
+                <span>Vitória</span>
+                <span>15</span>
+            </div>
+        </div>
+
+        <div class="list-item">
+            <div class="player-info">
+                <img src="../img/person-circle.svg" alt="user icon">
+                <span>username</span>
+            </div>
+            <div class="match-info">
+                <span>2</span>
+                <span>6x6</span>
+                <span>Derrota</span>
+                <span>15</span>
+            </div>
+        </div>
+
+         <div class="list-item">
+            <div class="player-info">
+                <img src="../img/person-circle.svg" alt="user icon">
+                <span>username</span>
+            </div>
+            <div class="match-info">
+                <span>3</span>
+                <span>8x8</span>
+                <span>Vitória</span>
+                <span>15</span>
+            </div>
+        </div>
+
+         <div class="list-item">
+            <div class="player-info">
+                <img src="../img/person-circle.svg" alt="user icon">
+                <span>username</span>
+            </div>
+            <div class="match-info">
+                <span>4</span>
+                <span>8x8</span>
+                <span>Vitória</span>
+                <span>15</span>
+            </div>
+        </div>
+
+         <div class="list-item">
+            <div class="player-info">
+                <img src="../img/person-circle.svg" alt="user icon">
+                <span>username</span>
+            </div>
+            <div class="match-info">
+                <span>5</span>
+                <span>8x8</span>
+                <span>Vitória</span>
+                <span>15</span>
+            </div>
+        </div>
+    </div>
+
     
-    <!-- 
-      Filtros para o ranking (para implementação futura):
-      - Filtro por tamanho do tabuleiro
-      - Filtro por modo de jogo
-    -->
-    
-    <!-- 
-      Rodapé com informações de copyright e link para validação W3C
-    -->
-</body>
-</html>
+
+    <div class="pagination">
+        <img src="../img/seta_anterior.svg" alt="Página anterior">
+        <img src="../img/seta_proximo.svg" alt="Próxima página">
+    </div>
+</main>
