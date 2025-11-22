@@ -50,7 +50,6 @@
         <button class="btn-orange">DICA</button>
         <button class="btn-orange outlined">TRAPAÇA (revela 2s)</button>
 
-        <!-- novos controles para trapaça persistente e restaurar -->
         <button class="btn-trapaca-toggle">Mostrar Todas (trapaça)</button>
         <button class="btn-trapaca-reset">Restaurar Exibição</button>
 
@@ -59,8 +58,7 @@
 
     <section class="board-area">
       <div class="board" aria-label="Tabuleiro do jogo">
-        <!-- cartas serão geradas aqui -->
-      </div>
+        </div>
     </section>
 
     <aside class="history">

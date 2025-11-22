@@ -204,14 +204,42 @@
     travado = false;
   }
 
-  function salvarPartida(partida) {
+function salvarPartida(dadosPartida) {
+    // PARTE 1: Salvar no localStorage (mantendo a funcionalidade local)
     try {
       const arr = JSON.parse(localStorage.getItem(HISTORICO_KEY) || '[]');
-      arr.unshift(partida);
+      arr.unshift(dadosPartida);
       localStorage.setItem(HISTORICO_KEY, JSON.stringify(arr));
       renderHistorico();
-    } catch (e) { console.error('Erro salvando histórico', e); }
-  }
+    } catch (e) { console.error('Erro salvando histórico local', e); }
+
+    const formData = new FormData();
+    formData.append('modo_jogo', modo); 
+    formData.append('tamanho_tabuleiro', dadosPartida.dimensoes);
+    formData.append('resultado', dadosPartida.resultado); 
+    formData.append('jogadas', dadosPartida.numero_jogadas);
+
+    fetch('../save_game.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            console.log("Partida salva no servidor com sucesso!", data.message);
+        } else {
+            console.error("Erro ao salvar partida no servidor:", data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Erro de conexão ou processamento:", error);
+    });
+}
 
   function renderHistorico() {
     if (!historyContainer) return;
