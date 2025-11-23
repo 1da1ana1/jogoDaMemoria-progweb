@@ -3,19 +3,38 @@ require_once 'check.php';
 require_once '../db-connection.php';
 
 try {
-    // Seleciona o nome do usuário e os dados da partida
-    // Apenas vitórias, ordenadas por MENOS jogadas (ascendente)
-    // Limitamos a 20 para não ficar gigante
+    // Uma partida vencedora por tamanho de tabuleiro:
+    // - Apenas vitórias
+    // - Menor número de jogadas para cada tamanho
+    // - Ordenado pelos maiores tabuleiros (área) e depois por menos jogadas
     $sql = "
-        SELECT u.username, p.tamanho_tabuleiro, p.jogadas, p.data_hora
+        SELECT 
+            u.username,
+            p.tamanho_tabuleiro,
+            p.modo_jogo,
+            p.jogadas,
+            p.data_hora
         FROM partidas p
-        JOIN usuarios u ON p.id_usuario = u.id
-        WHERE p.resultado = 'Vitória'
-        ORDER BY p.jogadas ASC, p.data_hora DESC
-        LIMIT 20
+        INNER JOIN usuarios u ON p.id_usuario = u.id
+        WHERE 
+            p.resultado = 'Vitória'
+            AND p.jogadas = (
+                SELECT MIN(p2.jogadas)
+                FROM partidas p2
+                WHERE 
+                    p2.tamanho_tabuleiro = p.tamanho_tabuleiro
+                    AND p2.resultado = 'Vitória'
+            )
+        ORDER BY 
+            (CAST(SUBSTRING_INDEX(p.tamanho_tabuleiro, 'x', 1) AS UNSIGNED) *
+             CAST(SUBSTRING_INDEX(p.tamanho_tabuleiro, 'x', -1) AS UNSIGNED)) DESC,
+            p.jogadas ASC,
+            p.data_hora ASC
+        LIMIT 10
     ";
-    
-    $stmt = $pdo->query($sql);
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
     $ranking = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (PDOException $e) {
@@ -32,13 +51,13 @@ try {
     <link rel="stylesheet" href="../css/rank.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Quantico:wght@400;700&display=swap" rel="stylesheet"/>
   </head>
   <body>
     <div class="container">
       <div id="logo">
         <h1>
-          <img src="../img/head-logo.svg" alt="head-logo" class="img01" />
+          <img src="../img/head-logo.svg" alt="logo" class="img01" />
           MEMÓRIA
           <img src="../img/head-logo.svg" alt="head-logo" class="img02" />
         </h1>
@@ -72,45 +91,44 @@ try {
     </div>
 
     <div class="container">
-      <h2 class="title-hub">RANKING (TOP 20)</h2>
-      <main class="main-container">
+      <h2 class="title-hub">RANKING GLOBAL (TOP 10)</h2>
 
+      <main class="history-container">
         <div class="ranking-list">
           <div class="list-header">
             <span>Data</span>
             <span>Tabuleiro</span>
+            <span>Modo</span>
             <span>Resultado</span>
             <span>Jogadas</span>
           </div>
 
           <?php if (count($ranking) > 0): ?>
-            <?php foreach ($ranking as $posicao => $linha): ?>
-                
-                <div class="list-item">
-                    <div class="player-info">
-                        <?php if($posicao < 3): ?>
-                             <img src="../img/trophy-fill.svg" alt="top player" style="filter: brightness(0.5);" />
-                        <?php else: ?>
-                             <img src="../img/person-circle.svg" alt="user icon" />
-                        <?php endif; ?>
-                        
-                        <span><?php echo htmlspecialchars($linha['username']); ?></span>
-                    </div>
-                    <div class="match-info">
-                        <span>
-                             <?php echo date('d/m/Y', strtotime($linha['data_hora'])); ?>
-                        </span>
-                        <span><?php echo htmlspecialchars($linha['tamanho_tabuleiro']); ?></span>
-                        <span style="color: #4CAF50;">Vitória</span>
-                        <span><?php echo $linha['jogadas']; ?></span>
-                    </div>
+            <?php foreach ($ranking as $linha): ?>
+              <div class="list-item">
+                <div class="player-info">
+                  <img src="../img/person-circle.svg" alt="user icon" />
+                  <span><?php echo htmlspecialchars($linha['username']); ?></span>
                 </div>
-
+                <div class="match-info">
+                  <span>
+                    <?php echo date('d/m/Y H:i', strtotime($linha['data_hora'])); ?>
+                  </span>
+                  <span><?php echo htmlspecialchars($linha['tamanho_tabuleiro']); ?></span>
+                  <span>
+                    <?php echo ($linha['modo_jogo'] === 'contratempo') ? 'Contratempo' : 'Clássico'; ?>
+                  </span>
+                  <span style="color: #4CAF50;">Vitória</span>
+                  <span><?php echo (int)$linha['jogadas']; ?></span>
+                </div>
+              </div>
             <?php endforeach; ?>
           <?php else: ?>
-             <p style="text-align:center; margin-top:20px; color:white;">O Ranking está vazio. Seja o primeiro a ganhar!</p>
+            <p style="text-align:center; margin-top:20px; color:white;">
+              O Ranking está vazio. Seja o primeiro a ganhar!
+            </p>
           <?php endif; ?>
-          </div>
+        </div>
       </main>
     </div>
   </body>

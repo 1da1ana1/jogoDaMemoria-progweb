@@ -6,8 +6,8 @@
 
 .list-header {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-areas: "data tabuleiro resultado jogadas";
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas: "data tabuleiro modo resultado jogadas";
     padding: 0 1.5rem 0.6rem 10.5rem; 
     color: var(--color-text-general);
     font-weight: bold;
@@ -39,7 +39,7 @@
 .match-info {
     flex-grow: 1;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     text-align: center;
     align-items: center;
 }
