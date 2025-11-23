@@ -24,7 +24,7 @@ try {
     <link rel="stylesheet" href="../css/history.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Quantico:wght@400;700&display=swap" rel="stylesheet"/>
   </head>
   <body>
     <div class="container">
@@ -67,7 +67,6 @@ try {
       <h2 class="title-hub">HISTÓRICO</h2>
 
       <main class="history-container">
-        
         <div class="tabs">
           <button class="tab-button active">TODAS AS PARTIDAS</button>
         </div>
@@ -76,38 +75,40 @@ try {
           <div class="list-header">
             <span>Data</span>
             <span>Tabuleiro</span>
+            <span>Modo</span>
             <span>Resultado</span>
             <span>Jogadas</span>
           </div>
 
           <?php if (count($historico) > 0): ?>
             <?php foreach ($historico as $partida): ?>
-                
-                <div class="list-item">
-                    <div class="player-info">
-                        <img src="../img/person-circle.svg" alt="user icon" />
-                        <span><?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                    </div>
-                    <div class="match-info">
-                        <span>
-                            <?php echo date('H:i', strtotime($partida['data_hora'])); ?> <br />
-                            <?php echo date('d/m/Y', strtotime($partida['data_hora'])); ?>
-                        </span>
-                        <span><?php echo htmlspecialchars($partida['tamanho_tabuleiro']); ?></span>
-                        
-                        <span style="color: <?php echo ($partida['resultado'] == 'Vitória') ? '#4CAF50' : '#F44336'; ?>">
-                            <?php echo htmlspecialchars($partida['resultado']); ?>
-                        </span>
-                        
-                        <span><?php echo $partida['jogadas']; ?></span>
-                    </div>
+              <div class="list-item">
+                <div class="player-info">
+                  <img src="../img/person-circle.svg" alt="user icon" />
+                  <span><?php echo htmlspecialchars($_SESSION['username']); ?></span>
                 </div>
-
+                <div class="match-info">
+                  <span>
+                    <?php echo date('H:i', strtotime($partida['data_hora'])); ?><br />
+                    <?php echo date('d/m/Y', strtotime($partida['data_hora'])); ?>
+                  </span>
+                  <span><?php echo htmlspecialchars($partida['tamanho_tabuleiro']); ?></span>
+                  <span>
+                    <?php echo ($partida['modo_jogo'] === 'contratempo') ? 'Contratempo' : 'Clássico'; ?>
+                  </span>
+                  <span style="color: <?php echo ($partida['resultado'] == 'Vitória') ? '#4CAF50' : '#F44336'; ?>;">
+                    <?php echo htmlspecialchars($partida['resultado']); ?>
+                  </span>
+                  <span><?php echo (int)$partida['jogadas']; ?></span>
+                </div>
+              </div>
             <?php endforeach; ?>
           <?php else: ?>
-            <p style="text-align:center; margin-top:20px; color:white;">Nenhuma partida encontrada. Vá jogar!</p>
+            <p style="text-align:center; margin-top:20px; color:white;">
+              Nenhuma partida encontrada. Vá jogar!
+            </p>
           <?php endif; ?>
-          </div>
+        </div>
       </main>
     </div>
   </body>
